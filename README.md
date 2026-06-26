@@ -130,8 +130,7 @@ Longer delivery times have a direct impact on customer satisfaction. Optimizing 
 
 ## 📷 Dashboard Preview
 
-<img width="856" height="487" alt="image" src="https://github.com/user-attachments/assets/5323fdb2-1ad1-40c4-afad-9d391129e278" />
-
+<img width="850" height="479" alt="image" src="https://github.com/user-attachments/assets/72f71030-c055-481e-88dd-34913219644a" />
 
 ---
 
@@ -140,14 +139,14 @@ Longer delivery times have a direct impact on customer satisfaction. Optimizing 
 ```text
 Food-Delivery-Performance-Analytics/
 │
-├── SQL/
-│   └── food-delivery-performance-analytics.sql
+├── Images/
+│   └── Dashboard.png
 │
 ├── Power BI/
 │   └── Food Delivery Performance Analytics Dashboard.pbix
 │
-├── Images/
-│   └── Dashboard.png
+├── SQL/
+│   └── food-delivery-performance-analytics.sql
 │
 └── README.md
 ```
