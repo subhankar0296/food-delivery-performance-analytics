@@ -1,56 +1,179 @@
-# Case Study #2 - 🍕 Pizza Runner Operational Analytics
+# 🍕 Food Delivery Performance Analytics Dashboard
 
 ## 📌 Project Overview
-Danny was scrolling through his Instagram feed when he caught a brilliant idea: "80s Retro Styling and Pizza Is The Future!" So, he recruited runners to deliver fresh pizzas from his apartment, building a database capturing operations, customer transactions, and courier metrics. 
 
-However, the operational data was captured with substantial inconsistencies, raw text formatting issues, and structural noise. This project showcases the end-to-end **Data Cleaning (ETL), Database Schema Optimization, and Operational Analysis** required to turn raw transactional logs into high-value business metrics using **Microsoft SQL Server**.
+This project demonstrates an end-to-end Business Intelligence solution built using **SQL Server** and **Power BI** to analyze food delivery operations, customer ordering patterns, delivery performance, and key business metrics.
 
----
-
-## 🛠️ Tech Stack & Advanced SQL Pillars
-* **Database Engine:** Microsoft SQL Server (SSMS)
-* **Data Transformation & Cleaning:** `CASE WHEN`, `TRIM`, `REPLACE`, Type Casting (`CAST`/`CONVERT`)
-* **Advanced Query Structures:** Common Table Expressions (CTEs), Subqueries, Window Functions (`DENSE_RANK()`, `PARTITION BY`)
-* **Core Analytics Functions:** `DATEDIFF`, `DATEPART`, `DATENAME`, `STRING_AGG`, `STRING_SPLIT`, `CROSS APPLY`
-* **Database Management:** Schema DML/DDL generation, relational table design, Data Manipulation Language (DML) challenges
+Starting with raw Pizza Runner transactional data, the project performs data cleaning and transformation using SQL before building an interactive Power BI dashboard. The dashboard provides actionable insights into sales performance, delivery efficiency, customer behavior, and store-level operations to support data-driven business decisions.
 
 ---
 
-# 🧹 Enterprise Data Cleaning Stage (The ETL Pipeline)
-Real-world data is inherently messy. Before running corporate analytics, I isolated the staging architecture and built data cleaning filters to transform the core operational tables:
+## 🎯 Business Objective
 
-### 1. `customer_orders` Stabilization
-* **Issue:** The `exclusions` and `extras` columns contained irregular combinations of blank spaces `''`, structural text `'null'` placeholders, and system `'NaN'` strings.
-* **Resolution:** Implemented conditional logic filters to cleanly map irregular strings into structured `NULL` values across the schema.
+The objective of this project is to help business stakeholders:
 
-### 2. `runner_orders` Normalization
-* **Issue:** Core logistical tracking columns contained a mix of mixed-text metadata. Distances were recorded as both `20km` and `23.4 km`; durations included text elements like `32minutes`, `20mins`, or `15 minute`. 
-* **Resolution:** Built text-parsing filters leveraging `REPLACE` and `TRIM` strings, then safely cast the objects to structured types (`DECIMAL` and `INT`) to ensure mathematical operations could be calculated properly.
+- Monitor overall delivery performance
+- Analyze customer ordering patterns
+- Identify peak demand periods
+- Evaluate store-level performance
+- Track delivery success and cancellations
+- Improve operational efficiency through data-driven insights
+
+---
+
+## 🛠 Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| SQL Server (T-SQL) | Data Cleaning & Transformation |
+| Power BI Desktop | Data Visualization & Dashboard |
+| DAX | KPI & Business Metric Calculations |
+| Data Modeling | Star Schema Design |
 
 ---
 
-## 📊 Business Performance Metrics Solved
+## 📂 Project Workflow
 
-### 📋 Section A: Pizza Volume Metrics
-* Evaluated global order traffic counts, distinct checkout cohorts, and peak demand hours.
-* Modeled order volume distribution using date aggregation logic (`DATEPART`, `DATENAME`) to isolate day-of-week and hourly operational shifts.
+### 1. Database Setup
 
-### 🚴 Section B: Logistics & Courier Optimization
-* Calculated preparation velocity and transit lag milestones by evaluating duration variance (`DATEDIFF`) between customer order creation and courier pickups.
-* Isolated statistical correlations proving that larger order volumes exponentially scale corporate kitchen prep bottlenecks.
-* Analyzed courier metrics by tracking average velocities ($KM/H$) per transit routing and processing individual operational success percentages.
+- Created the Pizza Runner database and relational tables.
+- Loaded raw transactional data into SQL Server.
+- Organized customer, runner, pizza, and order information for analysis.
 
-### 🍕 Section C: Ingredient Optimization
-* Flattened nested relational items via cross-applied arrays (`STRING_SPLIT` combined with `CROSS APPLY`) to map individual ingredient configurations out of multi-variable arrays.
-* Aggregated global preference matrices to determine the most common client extras and production modifications.
+### 2. Data Cleaning & Transformation (SQL)
 
-### 💰 Section D: Pricing & Financial Accountability
-* Designed multi-variable cost allocation functions tracking gross revenue margins based on product groupings ($12 for Meatlovers, $10 for Vegetarian).
-* Dynamic pricing models calculating upsell premiums for custom ingredient add-ons ($1 extra per added topping).
-* Generated dynamic data warehouse mock architecture, initializing `pizza_runner.runner_ratings` schema tables to track customer feedback fields.
+The raw dataset contained missing values, inconsistent formats, and text-based numeric fields. The following transformations were performed:
 
-### 🏆 Section E: Unified Analytical Reporting
-* Formulated a centralized denormalized reporting master query combining client records, order timestamps, courier IDs, transit runtimes, and user feedback evaluations into a flat analytical framework for business stakeholders.
+- Replaced blank values and text-based `"null"` values with SQL `NULL`.
+- Converted distance and duration fields into numeric data types.
+- Standardized cancellation records.
+- Cleaned pickup timestamps.
+- Created analytical SQL views:
+  - `vw_customer_orders_clean`
+  - `vw_runner_orders_clean`
+- Prepared clean datasets for reporting and analysis.
+
+### 3. Data Modeling (Power BI)
+
+- Imported cleaned SQL views into Power BI.
+- Designed a Star Schema data model for efficient reporting.
+- Created relationships between fact and dimension tables.
+- Built a dynamic Calendar table using DAX.
+- Developed calculated columns and measures for KPI reporting.
+- Optimized the data model for better performance and filtering.
 
 ---
-*Developed as a portfolio component highlighting core competency in business systems modeling, relational mapping, and intermediate-to-advanced SQL querying workflows.*
+
+## 📊 Dashboard KPIs
+
+The dashboard provides the following key performance indicators:
+
+- Total Revenue
+- Total Orders
+- Successful Deliveries
+- Delivery Success Rate
+- Average Delivery Time
+- Average Delivery Distance
+- Average Customer Rating
+- Store-wise Revenue
+- Store-wise Delivery Performance
+
+---
+
+## 📈 Key Business Insights
+
+### 🕒 Peak Demand
+
+- Customer demand is highest at **1:00 PM**, indicating a strong lunch rush.
+- Additional demand peaks occur at **6:00 PM** and **12:00 AM**.
+
+### 🍕 Product Performance
+
+- **Meatlovers** is the best-selling pizza, contributing **71.43%** of total orders (10 out of 14 pizzas).
+
+### 🏪 Store Performance
+
+**Store 1**
+- Generated the highest revenue (**$70**).
+- Achieved the fastest average delivery time (**22.25 minutes**).
+- Maintained the highest customer rating (**4.5 / 5**).
+
+**Store 2**
+- Recorded the longest average delivery distance (**23.93 km**).
+- Had the slowest average delivery time (**26.67 minutes**).
+- Received the lowest customer rating (**3.0 / 5**).
+
+### 🚚 Delivery Performance
+
+- Overall delivery success rate is **80%**.
+- One order was cancelled at **Store 2** and one at **Store 3**.
+
+### 💡 Business Recommendation
+
+Longer delivery times have a direct impact on customer satisfaction. Optimizing delivery routes and dispatch efficiency, particularly for **Store 2**, can improve delivery performance and customer ratings.
+
+---
+
+## 📊 Dashboard Features
+
+- Executive KPI Dashboard
+- Interactive Slicers and Filters
+- Store Performance Analysis
+- Revenue Analysis
+- Delivery Performance Tracking
+- Customer Rating Analysis
+- Hourly Order Trend Analysis
+- Conditional Formatting
+- Interactive Navigation Buttons
+
+---
+
+## 📷 Dashboard Preview
+
+<img width="856" height="487" alt="image" src="https://github.com/user-attachments/assets/5323fdb2-1ad1-40c4-afad-9d391129e278" />
+
+
+---
+
+## 📁 Repository Structure
+
+```text
+Food-Delivery-Performance-Analytics/
+│
+├── SQL/
+│   └── food-delivery-performance-analytics.sql
+│
+├── Power BI/
+│   └── Food Delivery Performance Analytics Dashboard.pbix
+│
+├── Images/
+│   └── Dashboard.png
+│
+└── README.md
+```
+
+---
+
+## 💡 Skills Demonstrated
+
+- SQL Data Cleaning
+- Data Transformation
+- ETL
+- SQL Views
+- SQL Server
+- Star Schema Data Modeling
+- DAX Calculations
+- KPI Development
+- Business Intelligence
+- Power BI Dashboard Design
+- Data Visualization
+- Business Analysis
+- Performance Reporting
+
+---
+
+## 👨‍💻 Author
+
+**Subhankar Mondal**
+
+**Skills:** SQL • Power BI • DAX • Data Analytics • Business Intelligence
